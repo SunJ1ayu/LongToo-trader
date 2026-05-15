@@ -1,0 +1,8 @@
+requests>=2.31.0
+pyyaml>=6.0.1
+numpy>=1.24.0
+pandas>=2.0.0
+akshare>=1.10.0
+mootdx>=1.0.0
+baostock>=0.8.0
+redis>=5.0.0

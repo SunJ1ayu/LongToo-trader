@@ -1,0 +1,103 @@
+# 自建模拟盘配置
+# 使用虚拟资金进行交易模拟，完全独立于实盘
+
+# 虚拟账户设置
+account:
+  # 初始资金 (人民币) - 用户设定：10万元 ✅ 已确认
+  initial_capital: 100000
+  
+  # 当前现金（动态更新）
+  cash: 100000
+  
+  # 当前总资产（现金 + 持仓市值）
+  total_assets: 100000
+  
+  # 基准日期
+  start_date: "2025-01-01"
+
+# 交易费用
+transaction_costs:
+  # 买入佣金 (%)
+  buy_commission: 0.0003  # 万3
+  
+  # 卖出佣金 (%)
+  sell_commission: 0.0003  # 万3
+  
+  # 印花税 (%，仅卖出）
+  stamp_tax: 0.001  # 千1
+  
+  # 最低佣金 (元)
+  min_commission: 5
+
+# 交易规则
+trading_rules:
+  #  markets: A股
+  market: "A股"
+  
+  # 交易时间限制
+  trading_hours:
+    morning: "09:30-11:30"
+    afternoon: "13:00-15:00"
+  
+  # T+1 规则
+  t_plus_1: true
+  
+  # 最小交易单位 (手)
+  min_lot: 100
+  
+  # 价格精度
+  price_precision: 2
+
+# 数据源
+data_source:
+  # 数据源类型: tushare / akshare / yfinance
+  provider: "akshare"
+  
+  # 数据缓存目录
+  cache_dir: "~/.openclaw/workspace/skills/LongToo-trader/data/cache"
+  
+  # 缓存过期时间 (分钟)
+  cache_ttl: 5
+
+# 风控参数
+risk_management:
+  # 最大持仓数量
+  max_positions: 5
+  
+  # 单只股票最大仓位 (%)
+  max_position_pct: 20
+  
+  # 单日最大亏损 (%)
+  max_daily_loss_pct: 5
+  
+  # 止损线 (%)
+  stop_loss_pct: 8
+  
+  # 止盈线 (%)
+  take_profit_pct: 15
+
+# 策略配置
+strategies:
+  momentum_trend:
+    enabled: true
+    position_size: 0.1  # 单次建仓 10% 资金
+    filters: []          # 全部关闭：7个月回测验证无有效 filter
+      # - volatility   # ❌ 负alpha：压制强趋势（动量策略里vol=alpha）
+      # - regime       # ❌ double punish：动量已隐含regime适应
+      # - defensive    # ⚪ 零贡献：阈值合理但未触发
+
+  conservative:
+    enabled: false
+    position_size: 0.05  # 单次建仓 5% 资金
+    filters: []
+
+# 报告设置
+reporting:
+  # 每日收盘后生成报告
+  daily_report: true
+  
+  # 报告保存路径
+  report_dir: "~/.openclaw/workspace/skills/LongToo-trader/reports"
+  
+  # 保存交易记录
+  save_trades: true
